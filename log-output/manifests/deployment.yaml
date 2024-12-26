@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: log-output
-  namespace: log-ping
+  namespace: log-pong
 spec:
   replicas: 1
   selector:
@@ -14,14 +14,14 @@ spec:
         app: log-output
     spec:
       volumes:
-        - name: kube-course-volume
+        - name: log-pong-volume
           persistentVolumeClaim:
-            claimName: kube-course-claim
+            claimName: log-pong-claim
       containers:
         - name: log-output-worker
           image: toukop/log-output-worker:latest
           volumeMounts:
-            - name: kube-course-volume
+            - name: log-pong-volume
               mountPath: /usr/src/app/files
           env:
             - name: FILE_DIR
@@ -30,7 +30,7 @@ spec:
         - name: log-output-web
           image: toukop/log-output-web:latest
           volumeMounts:
-            - name: kube-course-volume
+            - name: log-pong-volume
               mountPath: /usr/src/app/files
           env:
             - name: FILE_DIR

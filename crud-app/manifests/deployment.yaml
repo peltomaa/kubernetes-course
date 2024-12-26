@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: crud-app
+  namespace: crud
 spec:
   replicas: 1
   selector:
@@ -13,14 +14,14 @@ spec:
         app: crud-app
     spec:
       volumes:
-        - name: kube-course-volume
+        - name: crud-volume
           persistentVolumeClaim:
-            claimName: kube-course-claim
+            claimName: crud-claim
       containers:
         - name: crud-app
           image: toukop/crud-app:latest
           volumeMounts:
-            - name: kube-course-volume
+            - name: crud-volume
               mountPath: /usr/src/app/files
           env:
             - name: FILE_DIR
