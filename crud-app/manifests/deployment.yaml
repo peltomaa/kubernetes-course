@@ -12,6 +12,16 @@ spec:
       labels:
         app: crud-app
     spec:
+      volumes: 
+        - name: kube-course-volume
+          persistentVolumeClaim:
+            claimName: kube-course-claim
       containers:
         - name: crud-app
           image: toukop/crud-app:latest
+          volumeMounts:
+            - name: kube-course-volume
+              mountPath: /usr/src/app/files
+          env:
+            - name: FILE_DIR
+              value: /usr/src/app/files

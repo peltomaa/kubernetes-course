@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crud-app/utils"
 	"fmt"
 	"io"
 	"net/http"
@@ -9,8 +10,18 @@ import (
 
 func main() {
 	fmt.Println("Starting server")
+	http.HandleFunc("/img", func(w http.ResponseWriter, r *http.Request) {
+		img, err := utils.GetImage()
+		if err != nil {
+			println("Failed to get image:", err)
+			io.WriteString(w, "Unknown error")
+			return
+		}
+		http.ServeFile(w, r, img)
+	})
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		io.WriteString(w, "Hello, World!")
+		http.ServeFile(w, r, "index.html")
 	})
 
 	port := os.Getenv("PORT")
@@ -18,7 +29,7 @@ func main() {
 		port = "3000"
 	}
 
-	fmt.Printf("Server started in port %s", port)
+	fmt.Println("Server started in port", port)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Println("Error starting server:", err)
