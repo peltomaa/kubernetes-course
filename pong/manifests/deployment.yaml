@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong
+  template:
+    metadata:
+      labels:
+        app: pong
+    spec:
+      volumes: 
+        - name: kube-course-volume
+          persistentVolumeClaim:
+            claimName: kube-course-claim
+      containers:
+        - name: pong
+          image: toukop/pong:latest
+          volumeMounts:
+            - name: kube-course-volume
+              mountPath: /usr/src/app/files
+          env:
+            - name: FILE_DIR
+              value: /usr/src/app/files 

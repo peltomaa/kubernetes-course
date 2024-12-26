@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes: 
+        - name: kube-course-volume
+          persistentVolumeClaim:
+            claimName: kube-course-claim
+      containers:
+        - name: log-output-worker
+          image: toukop/log-output-worker:latest
+          volumeMounts:
+            - name: kube-course-volume
+              mountPath: /usr/src/app/files
+          env:
+            - name: FILE_DIR
+              value: /usr/src/app/files 
+
+        - name: log-output-web
+          image: toukop/log-output-web:latest
+          volumeMounts:
+            - name: kube-course-volume
+              mountPath: /usr/src/app/files
+          env:
+            - name: FILE_DIR
+              value: /usr/src/app/files 
