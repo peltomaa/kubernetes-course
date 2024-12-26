@@ -4,12 +4,19 @@ metadata:
   name: crud-app-ingress
 spec:
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: crud-app-svc
-            port:
-              number: 2347
+    - http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: crud-app-svc
+                port:
+                  number: 2347
+          - path: /img
+            pathType: Exact
+            backend:
+              service:
+                name: crud-app-svc
+                port:
+                  number: 2347

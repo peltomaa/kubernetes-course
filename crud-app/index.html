@@ -7,13 +7,62 @@
   </head>
   <body>
     <img alt="Random image" width="500" src="/img" />
-    <form>
-      <input type="text" name="todo" />
+    <form id="todo-form">
+      <input type="text" name="task" id="form-task" maxlength="140" />
+      <button type="submit" id="form-submit">Create TODO</button>
     </form>
-    <button type="submit" maxlength="140">Create TODO</button>
-    <ul>
-      <li>TODO 1</li>
-      <li>TODO 2</li>
-    </ul>
+    <ul id="todos"></ul>
+
+    <script>
+      const getTodos = async () => {
+        const res = await fetch("/todos");
+        const json = await res.json();
+        return json;
+      };
+
+      const postTodo = async (todo) => {
+        const res = await fetch("/todos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(todo),
+        });
+        const json = await res.json();
+        return json;
+      };
+
+      const injectTodos = async () => {
+        const todos = await getTodos();
+        const ul = document.getElementById("todos");
+        ul.innerHTML = "";
+        todos.forEach((todo) => {
+          ul.innerHTML += `<li>${todo.task}</li>`;
+        });
+      };
+
+      const handleForm = async (e) => {
+        e.preventDefault();
+        const input = document.getElementById("form-task");
+        if (input.value.trim() === "") {
+          alert("Task cannot be empty.");
+          return;
+        }
+        const todos = await postTodo({ task: input.value.trim() });
+        input.value = "";
+
+        const ul = document.getElementById("todos");
+        ul.innerHTML = "";
+        todos.forEach((todo) => {
+          ul.innerHTML += `<li>${todo.task}</li>`;
+        });
+      };
+
+      document
+        .getElementById("todo-form")
+        .addEventListener("submit", handleForm);
+
+      injectTodos();
+    </script>
   </body>
 </html>

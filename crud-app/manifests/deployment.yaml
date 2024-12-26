@@ -12,7 +12,7 @@ spec:
       labels:
         app: crud-app
     spec:
-      volumes: 
+      volumes:
         - name: kube-course-volume
           persistentVolumeClaim:
             claimName: kube-course-claim

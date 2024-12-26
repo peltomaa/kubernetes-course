@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: kube-course-claim
+  namespace: log-ping
 spec:
   storageClassName: kube-course-pv
   accessModes:

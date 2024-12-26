@@ -1,16 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: log-output-ingress
-  namespace: log-ping
+  name: crud-backend-ingress
 spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /todos
             pathType: Exact
             backend:
               service:
-                name: log-output-svc
+                name: crud-backend-svc
                 port:
-                  number: 2345
+                  number: 2348

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pong
+  namespace: log-ping
 spec:
   replicas: 1
   selector:
@@ -12,7 +13,7 @@ spec:
       labels:
         app: pong
     spec:
-      volumes: 
+      volumes:
         - name: kube-course-volume
           persistentVolumeClaim:
             claimName: kube-course-claim
@@ -24,4 +25,4 @@ spec:
               mountPath: /usr/src/app/files
           env:
             - name: FILE_DIR
-              value: /usr/src/app/files 
+              value: /usr/src/app/files
