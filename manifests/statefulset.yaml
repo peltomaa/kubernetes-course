@@ -1,25 +1,39 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis-stset
+  name: pong-postgres-stset
+  namespace: log-pong
 spec:
-  serviceName: redis-svc
   replicas: 2
   selector:
     matchLabels:
-      app: redisapp
-  # more rows
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis-svc
-  labels:
-    app: redis
-spec:
-  ports:
-    - port: 6379
-      name: web
-  clusterIP: None
-  selector:
-    app: redisapp
+      app: pong-postgres
+  template:
+    metadata:
+      labels:
+        app: pong-postgres
+    spec:
+      containers:
+        - name: pong-postgres
+          image: "postgres:14"
+          ports:
+            - name: postgres
+              containerPort: 5432
+          volumeMounts:
+            - name: pong-postgres-data-storage
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pong-postgres-secrets
+                  key: POSTGRES_PASSWORD
+  volumeClaimTemplates:
+    - metadata:
+        name: pong-postgres-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 100Mi
