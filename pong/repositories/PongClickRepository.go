@@ -2,9 +2,9 @@ package repositories
 
 import "database/sql"
 
-type PongButtonClick struct{}
+type PongClickRepository struct{}
 
-func (pb *PongButtonClick) Create(db *sql.DB) error {
+func (pb *PongClickRepository) Create(db *sql.DB) error {
 	query := `INSERT INTO pong_clicks DEFAULT VALUES;`
 
 	_, err := db.Exec(query)
@@ -15,7 +15,7 @@ func (pb *PongButtonClick) Create(db *sql.DB) error {
 	return nil
 }
 
-func (pb *PongButtonClick) Count(db *sql.DB) (int, error) {
+func (pb *PongClickRepository) Count(db *sql.DB) (int, error) {
 	query := `SELECT COUNT(*) FROM pong_clicks;`
 
 	var count int

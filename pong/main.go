@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	pongClickRepo := repositories.PongButtonClick{}
+	pongClickRepo := repositories.PongClickRepository{}
 	db, err := db.InitDb()
 	if err != nil {
 		fmt.Println("Error setting up db:", err)
