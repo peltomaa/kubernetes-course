@@ -26,3 +26,14 @@ spec:
           env:
             - name: FILE_DIR
               value: /usr/src/app/files
+            - name: PG_HOST
+              value: pong-postgres-svc
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_USER
+              value: postgres
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: pong-postgres-secrets
+                  key: POSTGRES_PASSWORD

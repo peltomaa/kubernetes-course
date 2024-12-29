@@ -13,3 +13,26 @@ Type "help" for help.
 
 postgres=#
 ```
+
+## Pongs from the database
+
+```bash
+postgres=# SELECT COUNT(*) FROM pong_clicks;
+ count
+-------
+    17
+(1 row)
+
+postgres=# SELECT COUNT(*) FROM pong_clicks;
+ count
+-------
+    19
+(1 row)
+
+postgres=# exit;
+root@psql-for-debugging:/# exit
+exit
+pod "psql-for-debugging" deleted
+➜  ~ curl http://localhost:8081/pingpong
+pong 19%
+```

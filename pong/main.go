@@ -5,47 +5,19 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"pong/utils"
-	"strconv"
+
+	"pong/db"
+	"pong/repositories"
 )
 
-func SaveNumber(number int) error {
-	filePath, err := utils.GetFilePath()
-	if err != nil {
-		return err
-	}
-
-	data := strconv.Itoa(number)
-
-	err = os.WriteFile(filePath, []byte(data), 0755)
-	if err != nil {
-		fmt.Printf("Unable to write to file: %v\n", err)
-	}
-
-	return nil
-}
-
-func ReadNumber() (int, error) {
-	filePath, err := utils.GetFilePath()
-	if err != nil {
-		return 0, err
-	}
-
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return 0, err
-	}
-
-	number, err := strconv.Atoi(string(data))
-	if err != nil {
-		return 0, err
-	}
-
-	return number, nil
-}
-
 func main() {
-	count, err := ReadNumber()
+	pongClickRepo := repositories.PongButtonClick{}
+	db, err := db.InitDb()
+	if err != nil {
+		fmt.Println("Error setting up db:", err)
+	}
+
+	count, err := pongClickRepo.Count(db)
 	if err != nil {
 		fmt.Println("Error reading number:", err)
 	}
@@ -59,8 +31,11 @@ func main() {
 
 		io.WriteString(w, fmt.Sprintf("pong %d", count))
 
+		err := pongClickRepo.Create(db)
 		count = count + 1
-		SaveNumber(count)
+		if err != nil {
+			fmt.Println("Error increasing count:", err)
+		}
 	})
 
 	port := os.Getenv("PORT")
