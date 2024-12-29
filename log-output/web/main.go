@@ -36,7 +36,21 @@ func main() {
 			return
 		}
 
-		data := fmt.Sprintf("%s\nPing / Pongs: %s\n", text, pongText)
+		configText, err := utils.ReadFile(utils.GetConfigFilePath())
+		if err != nil {
+			fmt.Println("Error reading config value:", err)
+			io.WriteString(w, "Unknown error")
+			return
+		}
+
+		message := os.Getenv("MESSAGE")
+
+		data := ""
+		data += fmt.Sprintf("file content: %s\n", configText)
+		data += fmt.Sprintf("MESSAGE=%s\n", message)
+		data += text + "\n"
+		data += fmt.Sprintf("Ping / Pongs: %s\n", pongText)
+
 		io.WriteString(w, data)
 	})
 

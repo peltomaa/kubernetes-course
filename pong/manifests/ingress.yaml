@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: pong-ingress
-  namespace: log-ping
+  namespace: log-pong
 spec:
   rules:
     - http:
