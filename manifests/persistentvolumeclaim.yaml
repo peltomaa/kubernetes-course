@@ -4,7 +4,7 @@ metadata:
   name: log-pong-claim
   namespace: log-pong
 spec:
-  storageClassName: kube-course-pv
+  storageClassName: log-pong-pv
   accessModes:
     - ReadWriteMany
   resources:
@@ -17,7 +17,7 @@ metadata:
   name: crud-claim
   namespace: crud
 spec:
-  storageClassName: kube-course-pv
+  storageClassName: crud-pv
   accessModes:
     - ReadWriteMany
   resources:
