@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: crud-backend-worker
+  namespace: crud
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: crud-backend-worker
+              image: toukop/crud-backend-worker:latest
+              imagePullPolicy: Always
+              env:
+                - name: PG_HOST
+                  value: crud-postgres-svc
+                - name: PG_PORT
+                  value: "5432"
+                - name: PG_USER
+                  value: postgres
+                - name: PG_PASS
+                  valueFrom:
+                    secretKeyRef:
+                      name: crud-postgres-secrets
+                      key: POSTGRES_PASSWORD
