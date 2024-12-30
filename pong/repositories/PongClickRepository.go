@@ -4,7 +4,7 @@ import "database/sql"
 
 type PongClickRepository struct{}
 
-func (pb *PongClickRepository) Create(db *sql.DB) error {
+func (r *PongClickRepository) Create(db *sql.DB) error {
 	query := `INSERT INTO pong_clicks DEFAULT VALUES;`
 
 	_, err := db.Exec(query)
@@ -15,7 +15,7 @@ func (pb *PongClickRepository) Create(db *sql.DB) error {
 	return nil
 }
 
-func (pb *PongClickRepository) Count(db *sql.DB) (int, error) {
+func (r *PongClickRepository) Count(db *sql.DB) (int, error) {
 	query := `SELECT COUNT(*) FROM pong_clicks;`
 
 	var count int

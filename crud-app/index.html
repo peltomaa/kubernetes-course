@@ -8,7 +8,7 @@
   <body>
     <img alt="Random image" width="500" src="/img" />
     <form id="todo-form">
-      <input type="text" name="task" id="form-task" maxlength="140" />
+      <input type="text" name="task" id="form-task" maxlength="140" required />
       <button type="submit" id="form-submit">Create TODO</button>
     </form>
     <ul id="todos"></ul>
@@ -44,10 +44,6 @@
       const handleForm = async (e) => {
         e.preventDefault();
         const input = document.getElementById("form-task");
-        if (input.value.trim() === "") {
-          alert("Task cannot be empty.");
-          return;
-        }
         const todos = await postTodo({ task: input.value.trim() });
         input.value = "";
 

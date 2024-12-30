@@ -1,57 +1,33 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
+
+	"crud-backend/controllers"
+	"crud-backend/db"
+	"crud-backend/repositories"
 )
 
-type Todo struct {
-	Task string `json:"task"`
-}
-
-var todos []Todo
-
-func handleGetTodos(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json")
-
-	err := json.NewEncoder(w).Encode(todos)
-	if err != nil {
-		http.Error(w, "Failed to serialize todos", http.StatusInternalServerError)
-	}
-}
-
-func handlePostTodos(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	var newTodo Todo
-	err := json.NewDecoder(r.Body).Decode(&newTodo)
-	if err != nil {
-		http.Error(w, "Failed to decode new todo", http.StatusInternalServerError)
-	}
-
-	todos = append(todos, newTodo)
-
-	err = json.NewEncoder(w).Encode(todos)
-	if err != nil {
-		http.Error(w, "Failed to serialize todos", http.StatusInternalServerError)
-	}
-}
-
 func main() {
-	if todos == nil {
-		todos = []Todo{}
-	}
+	fmt.Println("Starting backend server")
 
-	fmt.Println("Starting server")
+	DB, err := db.InitDb()
+	if err != nil {
+		fmt.Println("Failed init db:", err)
+	}
+	db.CreateTable(DB)
+	taskRepo := repositories.TaskRepository{DB: DB}
+	taskCtrl := controllers.TaskController{R: &taskRepo}
+
 	http.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
-			handleGetTodos(w)
+			taskCtrl.GetTasks(w)
 			return
 		}
 		if r.Method == http.MethodPost {
-			handlePostTodos(w, r)
+			taskCtrl.PostTask(w, r)
 			return
 		}
 
@@ -64,7 +40,7 @@ func main() {
 	}
 
 	fmt.Println("Server started in port", port)
-	err := http.ListenAndServe(":"+port, nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Println("Error starting server:", err)
 	}

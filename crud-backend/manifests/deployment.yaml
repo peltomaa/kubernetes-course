@@ -16,3 +16,16 @@ spec:
       containers:
         - name: crud-backend
           image: toukop/crud-backend:latest
+          imagePullPolicy: Always
+          env:
+            - name: PG_HOST
+              value: crud-postgres-svc
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_USER
+              value: postgres
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: crud-postgres-secrets
+                  key: POSTGRES_PASSWORD
