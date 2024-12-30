@@ -4,7 +4,7 @@ metadata:
   name: pong-postgres-stset
   namespace: log-pong
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: pong-postgres
@@ -44,7 +44,7 @@ metadata:
   name: crud-postgres-stset
   namespace: crud
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: crud-postgres
