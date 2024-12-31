@@ -20,12 +20,14 @@ func (c *TaskController) GetTasks(w http.ResponseWriter) {
 	if err != nil {
 		fmt.Println("Failed to select tasks", err)
 		http.Error(w, "Failed to select tasks", http.StatusInternalServerError)
+		return
 	}
 
 	err = json.NewEncoder(w).Encode(tasks)
 	if err != nil {
 		fmt.Println("Failed to serialize tasks", err)
 		http.Error(w, "Failed to serialize tasks", http.StatusInternalServerError)
+		return
 	}
 }
 
@@ -37,11 +39,13 @@ func (c *TaskController) PostTask(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Failed to decode new task", err)
 		http.Error(w, "Failed to decode new task", http.StatusInternalServerError)
+		return
 	}
 
 	if len(newTask.Task) > 140 {
 		fmt.Println("Task exceeds character length of 140")
 		http.Error(w, "Task exceeds character length of 140", http.StatusForbidden)
+		return
 	}
 
 	fmt.Println("Insert new task:", newTask.Task)
@@ -49,6 +53,7 @@ func (c *TaskController) PostTask(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Failed to insert new task", err)
 		http.Error(w, "Failed to insert new task", http.StatusInternalServerError)
+		return
 	}
 
 	c.GetTasks(w)
