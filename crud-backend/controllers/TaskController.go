@@ -39,6 +39,11 @@ func (c *TaskController) PostTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode new task", http.StatusInternalServerError)
 	}
 
+	if len(newTask.Task) > 140 {
+		fmt.Println("Task exceeds character length of 140")
+		http.Error(w, "Task exceeds character length of 140", http.StatusForbidden)
+	}
+
 	fmt.Println("Insert new task:", newTask.Task)
 	err = c.R.Insert(&newTask)
 	if err != nil {
