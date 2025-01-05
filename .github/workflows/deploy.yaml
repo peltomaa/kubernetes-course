@@ -35,35 +35,13 @@ jobs:
       - name: "Build crud app"
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA crud-app/
 
-      - name: "Build crud backend"
-        run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA crud-backend/
-
-      - name: "Build crud backend worker"
-        run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA -f crud-backend/Dockerfile-worker crud-backend/
-
       - name: "Publish crud app"
         run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
-
-      - name: "Publish crud backend"
-        run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA
-
-      - name: "Publish crud backend worker"
-        run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
 
       - name: "Deploy crud app"
         run: |-
           cd crud-app
           kustomize edit set image crud/app=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
-          kustomize build .
-          kubectl apply -f -
-          kubectl rollout status deployment
-          kubectl get services -o wide
-
-      - name: "Deploy crud backend"
-        run: |-
-          cd crud-backend
-          kustomize edit set image crud/backend=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA
-          kustomize edit set image crud/backend-worker=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
           kustomize build .
           kubectl apply -f -
           kubectl rollout status deployment
