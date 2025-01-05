@@ -23,12 +23,9 @@ func main() {
 	}
 
 	fmt.Println("Starting server")
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/favicon.ico" {
-			w.WriteHeader(http.StatusNoContent)
-			return
-		}
+	mux := http.NewServeMux()
 
+	mux.HandleFunc("GET /pingpong", func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, fmt.Sprintf("pong %d", count))
 
 		err := pongClickRepo.Create(db)
@@ -37,6 +34,8 @@ func main() {
 			fmt.Println("Error increasing count:", err)
 		}
 	})
+
+	http.Handle("/", mux)
 
 	port := os.Getenv("PORT")
 	if port == "" {
