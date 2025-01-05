@@ -33,7 +33,7 @@ jobs:
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA crud-backend/
 
       - name: "Build crud backend worker"
-        run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA -f Dockerfile-worker crud-backend/
+        run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA -f crud-backend/Dockerfile-worker crud-backend/
 
       - name: "Publish crud app"
         run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
