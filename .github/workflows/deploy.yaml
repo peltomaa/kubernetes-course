@@ -56,10 +56,11 @@ jobs:
       - name: "Create feature branch namespace"
         if: github.branch != 'main'
         run: |-
-          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-          kubectl config set-context --current --namespace=crud
+          kubectl create namespace crud-${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=crud-${GITHUB_REF#refs/heads/}
           cd crud-app
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
+          cd ..
           cd crud-backend
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
 
