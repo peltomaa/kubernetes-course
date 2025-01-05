@@ -50,7 +50,7 @@ jobs:
         run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
 
       - name: "Set main namespace"
-        if: github.branch = 'main'
+        if: github.branch == 'main'
         run: kubectl config set-context --current --namespace=crud
 
       - name: "Create feature branch namespace"
