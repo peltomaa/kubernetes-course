@@ -1,25 +1,23 @@
 ```bash
-➜  kubernetes-course git:(main) ✗ kubectl get pods,
-➜  kubernetes-course git:(main) ✗ kubectl cluster-info
-Kubernetes control plane is running at https://34.88.8.169
-GLBCDefaultBackend is running at https://34.88.8.169/api/v1/namespaces/kube-system/services/default-http-backend:http/proxy
-KubeDNS is running at https://34.88.8.169/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-Metrics-server is running at https://34.88.8.169/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+➜  pong git:(main) ✗ kubectl get pods,ing,services
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/log-output-668977f44-w7fxk   2/2     Running   0          5m48s
+pod/pong-b889858d4-4hp99         1/1     Running   0          100s
+pod/pong-postgres-stset-0        1/1     Running   0          62m
 
-To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
-➜  kubernetes-course git:(main) ✗ kubectl get pods,pvc,statefulset,services
-NAME                        READY   STATUS    RESTARTS   AGE
-pod/pong-b889858d4-bnt6p    1/1     Running   0          28m
-pod/pong-postgres-stset-0   1/1     Running   0          13m
+NAME                                           CLASS    HOSTS   ADDRESS        PORTS   AGE
+ingress.networking.k8s.io/log-output-ingress   <none>   *       34.8.132.181   80      3m45s
+ingress.networking.k8s.io/pong-ingress         <none>   *       34.8.81.65     80      24m
 
-NAME                                                                     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
-persistentvolumeclaim/log-pong-claim                                     Bound    pvc-c6fee384-73a4-41ee-a86e-4cc300e85a79   30Gi       RWO            standard-rwo   <unset>                 24m
-persistentvolumeclaim/pong-postgres-data-storage-pong-postgres-stset-0   Bound    pvc-c590df40-2a55-4811-9467-843428f7cc81   1Gi        RWO            standard-rwo   <unset>                 16m
-
-NAME                                   READY   AGE
-statefulset.apps/pong-postgres-stset   1/1     13m
-
-NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-service/pong-postgres-svc   ClusterIP   None            <none>        5432/TCP         23m
-service/pong-svc            NodePort    34.118.231.85   <none>        2346:30728/TCP   28m
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/log-output-svc      NodePort    34.118.231.125   <none>        2345:30845/TCP   40m
+service/pong-postgres-svc   ClusterIP   None             <none>        5432/TCP         72m
+service/pong-svc            NodePort    34.118.232.157   <none>        2346:32334/TCP   32m
+➜  pong git:(main) ✗ curl http://34.8.132.181/
+file content: this text is from file
+MESSAGE=hello world
+2025-01-05T16:29:36Z: 1f1f196b-a4b4-4e2d-ace5-bed5ae800a4e
+Ping / Pongs: CANNOT_READ_PONG_FILE
+➜  pong git:(main) ✗ curl http://34.8.81.65/pingpong
+pong 323%
 ```
