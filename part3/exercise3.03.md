@@ -1,3 +1,7 @@
+## Files
+
+- https://github.com/peltomaa/kubernetes-course/blob/159d26ac143e5e60d01b412097e664921b9bfc38/.github/workflows/deploy.yaml
+
 ## Service running
 
 ```bash
