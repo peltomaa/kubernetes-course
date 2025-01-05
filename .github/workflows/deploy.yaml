@@ -49,8 +49,19 @@ jobs:
       - name: "Publish crud backend worker"
         run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
 
-      - name: "Set namespace"
+      - name: "Set main namespace"
+        if: github.branch = 'main'
         run: kubectl config set-context --current --namespace=crud
+
+      - name: "Create feature branch namespace"
+        if: github.branch != 'main'
+        run: |-
+          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=crud
+          cd crud-app
+          kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
+          cd crud-backend
+          kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
 
       - name: "Deploy crud app"
         run: |-
