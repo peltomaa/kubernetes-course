@@ -1,2 +1,2 @@
-docker build -t toukop/crud-app:latest .
+docker buildx build --platform linux/amd64,linux/arm64 -t toukop/crud-app:latest .
 docker push toukop/crud-app:latest

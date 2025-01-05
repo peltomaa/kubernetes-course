@@ -22,6 +22,7 @@ spec:
           volumeMounts:
             - name: pong-postgres-data-storage
               mountPath: /var/lib/postgresql/data
+              subPath: postgres
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
@@ -33,7 +34,7 @@ spec:
         name: pong-postgres-data-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        storageClassName: standard-rwo
         resources:
           requests:
             storage: 100Mi
@@ -62,6 +63,7 @@ spec:
           volumeMounts:
             - name: crud-postgres-data-storage
               mountPath: /var/lib/postgresql/data
+              subPath: postgres
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
@@ -73,7 +75,7 @@ spec:
         name: crud-postgres-data-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        storageClassName: standard-rwo
         resources:
           requests:
             storage: 100Mi

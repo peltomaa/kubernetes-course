@@ -19,7 +19,7 @@ spec:
             claimName: log-pong-claim
       containers:
         - name: pong
-          image: toukop/pong:latest
+          image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/pong:latest
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files

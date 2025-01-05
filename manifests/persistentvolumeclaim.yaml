@@ -4,12 +4,12 @@ metadata:
   name: log-pong-claim
   namespace: log-pong
 spec:
-  storageClassName: log-pong-pv
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 30Gi
+  storageClassName: standard-rwo
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -17,9 +17,9 @@ metadata:
   name: crud-claim
   namespace: crud
 spec:
-  storageClassName: crud-pv
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 30Gi
+  storageClassName: standard-rwo
