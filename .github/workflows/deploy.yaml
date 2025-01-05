@@ -15,13 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: azure/setup-kubectl@v4
-
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: "${{ secrets.GKE_SA_KEY }}"
 
       - uses: google-github-actions/setup-gcloud@v2
+        with:
+          install_components: "kubectl"
 
       - uses: google-github-actions/get-gke-credentials@v2
         with:
@@ -54,7 +54,8 @@ jobs:
         run: |-
           cd crud-app
           kustomize edit set image crud/app=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
-          kustomize build . | kubectl apply -f -
+          kustomize build .
+          kubectl apply -f -
           kubectl rollout status deployment
           kubectl get services -o wide
 
@@ -63,6 +64,7 @@ jobs:
           cd crud-backend
           kustomize edit set image crud/backend=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA
           kustomize edit set image crud/backend-worker=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
-          kustomize build . | kubectl apply -f -
+          kustomize build .
+          kubectl apply -f -
           kubectl rollout status deployment
           kubectl get services -o wide
