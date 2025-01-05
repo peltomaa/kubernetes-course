@@ -25,6 +25,10 @@ func main() {
 	fmt.Println("Starting server")
 	mux := http.NewServeMux()
 
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "Hello world, this is pong!")
+	})
+
 	mux.HandleFunc("GET /pingpong", func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, fmt.Sprintf("pong %d", count))
 

@@ -26,7 +26,7 @@ spec:
                 path: information.txt
       containers:
         - name: log-output-worker
-          image: toukop/log-output-worker:latest
+          image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/log-output-worker:latest
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files
@@ -35,7 +35,7 @@ spec:
               value: /usr/src/app/files
 
         - name: log-output-web
-          image: toukop/log-output-web:latest
+          image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/log-output-web:latest
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files

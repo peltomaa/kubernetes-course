@@ -7,8 +7,8 @@ spec:
   rules:
     - http:
         paths:
-          - path: /pingpong
-            pathType: Exact
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: pong-svc
