@@ -7,6 +7,7 @@ env:
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   BRANCH: ${{ github.ref_name }}
+  DECRYPTION_KEY: ${{ secrets.KEY_FILE }}
 
 jobs:
   build:
@@ -58,11 +59,23 @@ jobs:
         run: |-
           kubectl create namespace crud-${GITHUB_REF#refs/heads/} || true
           kubectl config set-context --current --namespace=crud-${GITHUB_REF#refs/heads/}
+          kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
           cd crud-app
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
           cd ..
           cd crud-backend
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
+
+      - name: "Decrypt secrets"
+        run: |-
+          echo "$DECRYPTION_KEY" > key.txt
+          sops --decrypt --key key.txt manifests/secret.enc.yaml > manifests/secret.yaml
+
+      - name: "Setup databases"
+        run: |-
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment
+          kubectl get services -o wide
 
       - name: "Deploy crud app"
         run: |-
