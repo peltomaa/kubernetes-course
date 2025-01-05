@@ -41,6 +41,7 @@ jobs:
       - name: "Deploy crud app"
         run: |-
           cd crud-app
+          kubectl config set-context --current --namespace=crud
           kustomize edit set image crud/app=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment
