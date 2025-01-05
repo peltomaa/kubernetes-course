@@ -27,7 +27,7 @@ jobs:
           location: "${{ env.GKE_ZONE }}"
 
       - name: "Config docker"
-        run: gcloud auth configure-docker europe-north1-docker.pkg.dev
+        run: gcloud --quiet auth configure-docker europe-north1-docker.pkg.dev
 
       - name: "Build crud app"
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA crud-app/
@@ -46,3 +46,18 @@ jobs:
 
       - name: "Publish crud backend worker"
         run: docker push europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
+
+      - name: "Deploy crud app"
+        run: |-
+          kustomize edit set image crud/app=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA
+          kustomize build crud-app/kustomization.yaml | kubectl apply -f -
+          kubectl rollout status deployment
+          kubectl get services -o wide
+
+      - name: "Deploy crud backend"
+        run: |-
+          kustomize edit set image crud/backend=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend:$BRANCH-$GITHUB_SHA
+          kustomize edit set image crud/backend-worker=europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-backend-worker:$BRANCH-$GITHUB_SHA
+          kustomize build crud-backend/kustomization.yaml | kubectl apply -f -
+          kubectl rollout status deployment
+          kubectl get services -o wide
