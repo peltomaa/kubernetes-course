@@ -12,7 +12,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: crud-backend-worker
-              image: toukop/crud-backend-worker:latest
+              image: crud/backend-worker
               imagePullPolicy: Always
               env:
                 - name: PG_HOST

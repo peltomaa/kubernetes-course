@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: crud-backend
-          image: toukop/crud-backend:latest
+          image: crud/backend
           imagePullPolicy: Always
           env:
             - name: PG_HOST
