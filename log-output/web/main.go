@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"io"
-	"log-output/utils"
 	"net/http"
 	"os"
+
+	"log-output/utils"
 )
 
 func main() {
@@ -24,23 +25,20 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		text, err := utils.ReadFile(filePath)
 		if err != nil {
-			fmt.Println("Error reading value:", err)
-			io.WriteString(w, "Unknown error")
-			return
+			fmt.Println("Error reading log file:", err)
+			text = "CANNOT_READ_LOG_FILE"
 		}
 
 		pongText, err := utils.ReadFile(pongFilePath)
 		if err != nil {
-			fmt.Println("Error reading pong value:", err)
-			io.WriteString(w, "Unknown error")
-			return
+			fmt.Println("Error reading pong file:", err)
+			pongText = "CANNOT_READ_PONG_FILE"
 		}
 
 		configText, err := utils.ReadFile(utils.GetConfigFilePath())
 		if err != nil {
 			fmt.Println("Error reading config value:", err)
-			io.WriteString(w, "Unknown error")
-			return
+			configText = "CANNOT_READ_CONFIG_FILE"
 		}
 
 		message := os.Getenv("MESSAGE")
