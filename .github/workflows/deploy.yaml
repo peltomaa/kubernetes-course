@@ -27,7 +27,7 @@ jobs:
           location: "${{ env.GKE_ZONE }}"
 
       - name: "Config docker"
-        run: gcloud --quiet auth configure-docker
+        run: gcloud auth configure-docker europe-north1-docker
 
       - name: "Build crud app"
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA crud-app/
