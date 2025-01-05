@@ -68,8 +68,11 @@ jobs:
 
       - name: "Decrypt secrets"
         run: |-
-          echo "$DECRYPTION_KEY" > key.txt
-          sops --decrypt --key key.txt manifests/secret.enc.yaml > manifests/secret.yaml
+          curl -O -L -C - https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux
+          sudo mv sops-v3.7.3.linux /usr/bin/sops
+          sudo chmod +x /usr/bin/sops
+          export SOPS_AGE_KEY=${{ secrets.DECRYPTION_KEY }}
+          sops --decrypt manifests/secret.enc.yaml > manifests/secret.yaml
 
       - name: "Setup databases"
         run: |-
