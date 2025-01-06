@@ -29,5 +29,10 @@ jobs:
           project_id: "${{ env.PROJECT_ID }}"
           location: "${{ env.GKE_ZONE }}"
 
+      - name: "Echo details"
+        run: echo "${{ github.event.ref }}"
+
       - name: "Remove namespace"
-        run: kubectl delete namespace crud-${github.event.ref#refs/heads/}
+        run: |-
+          BRANCH=$(cat ${{ github.event_path }} | jq --raw-output '.ref')
+          kubectl delete namespace crud-${BRANCH}
