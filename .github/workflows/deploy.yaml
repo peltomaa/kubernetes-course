@@ -7,7 +7,7 @@ env:
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   BRANCH: ${{ github.ref_name }}
-  DECRYPTION_KEY: ${{ secrets.KEY_FILE }}
+  SOPS_AGE_KEY: ${{ secrets.DECRYPTION_KEY }}
 
 jobs:
   build:
@@ -32,6 +32,13 @@ jobs:
 
       - name: "Config docker"
         run: gcloud --quiet auth configure-docker europe-north1-docker.pkg.dev
+
+      - name: "Decrypt secrets"
+        run: |-
+          curl -O -L -C - https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux
+          sudo mv sops-v3.7.3.linux /usr/bin/sops
+          sudo chmod +x /usr/bin/sops
+          sops --decrypt manifests/secrets.enc.yaml > manifests/secrets.yaml
 
       - name: "Build crud app"
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA crud-app/
@@ -65,14 +72,6 @@ jobs:
           cd ..
           cd crud-backend
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
-
-      - name: "Decrypt secrets"
-        run: |-
-          curl -O -L -C - https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux
-          sudo mv sops-v3.7.3.linux /usr/bin/sops
-          sudo chmod +x /usr/bin/sops
-          export SOPS_AGE_KEY=${{ secrets.DECRYPTION_KEY }}
-          sops --decrypt manifests/secret.enc.yaml > manifests/secret.yaml
 
       - name: "Setup databases"
         run: |-
