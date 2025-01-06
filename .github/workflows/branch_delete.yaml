@@ -31,4 +31,5 @@ jobs:
 
       - name: "Remove namespace"
         run: |-
+          BRANCH=$(cat ${{ github.event_path }} | jq --raw-output '.ref')
           kubectl delete namespace crud-${github.event.ref}
