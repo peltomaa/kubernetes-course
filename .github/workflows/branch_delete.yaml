@@ -30,4 +30,4 @@ jobs:
           location: "${{ env.GKE_ZONE }}"
 
       - name: "Remove namespace"
-        run: kubectl delete namespace crud-${GITHUB_REF#refs/heads/}
+        run: kubectl delete namespace crud-${github.event.ref#refs/heads/}
