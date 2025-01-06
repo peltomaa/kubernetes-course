@@ -10,16 +10,3 @@ spec:
     requests:
       storage: 30Gi
   storageClassName: standard-rwo
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: crud-claim
-  namespace: crud
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 30Gi
-  storageClassName: standard-rwo

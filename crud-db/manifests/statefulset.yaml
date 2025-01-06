@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: crud-postgres-stset
+  namespace: crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crud-postgres
+  template:
+    metadata:
+      labels:
+        app: crud-postgres
+    spec:
+      containers:
+        - name: crud-postgres
+          image: "postgres:14"
+          ports:
+            - name: postgres
+              containerPort: 5432
+          volumeMounts:
+            - name: crud-postgres-data-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: crud-postgres-secrets
+                  key: POSTGRES_PASSWORD
+  volumeClaimTemplates:
+    - metadata:
+        name: crud-postgres-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard-rwo
+        resources:
+          requests:
+            storage: 100Mi
