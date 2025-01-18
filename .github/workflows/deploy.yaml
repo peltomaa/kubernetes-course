@@ -38,7 +38,7 @@ jobs:
           curl -O -L -C - https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux
           sudo mv sops-v3.7.3.linux /usr/bin/sops
           sudo chmod +x /usr/bin/sops
-          sops --decrypt crud-db/manifests/secrets.enc.yaml > crud-db/manifests/secrets.yaml
+          sops --decrypt crud-infra/manifests/secrets.enc.yaml > crud-infra/manifests/secrets.yaml
 
       - name: "Build crud app"
         run: docker build -t europe-north1-docker.pkg.dev/$PROJECT_ID/kubernetes-course/crud-app:$BRANCH-$GITHUB_SHA crud-app/
@@ -66,7 +66,7 @@ jobs:
         run: |-
           kubectl config set-context --current --namespace=crud-${GITHUB_REF#refs/heads/}
           kubectl create namespace crud-${GITHUB_REF#refs/heads/} || true
-          cd crud-db
+          cd crud-infra
           kustomize edit set namespace crud-${GITHUB_REF#refs/heads/}
           cd ..
           cd crud-app
@@ -77,7 +77,7 @@ jobs:
 
       - name: "Setup crud databases"
         run: |-
-          cd crud-db
+          cd crud-infra
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment
           kubectl get services -o wide
