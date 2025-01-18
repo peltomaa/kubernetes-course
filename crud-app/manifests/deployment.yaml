@@ -22,7 +22,7 @@ spec:
           image: crud/app
           resources:
             limits:
-              cpu: "500m"
+              cpu: "150m"
               memory: "512Mi"
           volumeMounts:
             - name: crud-volume

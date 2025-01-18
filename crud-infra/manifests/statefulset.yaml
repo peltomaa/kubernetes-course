@@ -18,7 +18,7 @@ spec:
           image: "postgres:14"
           resources:
             limits:
-              cpu: "500m"
+              cpu: "150m"
               memory: "512Mi"
           ports:
             - name: postgres

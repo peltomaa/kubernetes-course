@@ -18,7 +18,7 @@ spec:
           image: crud/backend
           resources:
             limits:
-              cpu: "500m"
+              cpu: "150m"
               memory: "512Mi"
           env:
             - name: PG_HOST
