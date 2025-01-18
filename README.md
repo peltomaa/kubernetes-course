@@ -1,5 +1,39 @@
 # Kubernetes course
 
+## Exercises
+
+- [Part 1](part1)
+  - [Exercise 1.01](part1/exercise1.01.md)
+  - [Exercise 1.02](part1/exercise1.02.md)
+  - [Exercise 1.03](part1/exercise1.03.md)
+  - [Exercise 1.04](part1/exercise1.04.md)
+  - [Exercise 1.05](part1/exercise1.05.md)
+  - [Exercise 1.06](part1/exercise1.06.md)
+  - [Exercise 1.07](part1/exercise1.07.md)
+  - [Exercise 1.08](part1/exercise1.08.md)
+  - [Exercise 1.09](part1/exercise1.09.md)
+  - [Exercise 1.10](part1/exercise1.10.md)
+  - [Exercise 1.11](part1/exercise1.11.md)
+  - [Exercise 1.12](part1/exercise1.12.md)
+- [Part 2](part2)
+  - [Exercise 2.01](part2/exercise2.01.md)
+  - [Exercise 2.02](part2/exercise2.02.md)
+  - [Exercise 2.03](part2/exercise2.03.md)
+  - [Exercise 2.04](part2/exercise2.04.md)
+  - [Exercise 2.06](part2/exercise2.06.md)
+  - [Exercise 2.07](part2/exercise2.07.md)
+  - [Exercise 2.08](part2/exercise2.08.md)
+  - [Exercise 2.09](part2/exercise2.09.md)
+  - [Exercise 2.10](part2/exercise2.10.md)
+- [Part 3](part3)
+  - [Exercise 3.01](part3/exercise3.01.md)
+  - [Exercise 3.02](part3/exercise3.02.md)
+  - [Exercise 3.03](part3/exercise3.03.md)
+  - [Exercise 3.04](part3/exercise3.04.md)
+  - [Exercise 3.05](part3/exercise3.05.md)
+  - [Exercise 3.08](part3/exercise3.08.md)
+  - [Exercise 3.09](part3/exercise3.09.md)
+
 ## DBaaS vs DIY
 
 ### DBaaS
