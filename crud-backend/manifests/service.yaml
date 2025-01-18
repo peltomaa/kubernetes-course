@@ -4,7 +4,7 @@ metadata:
   name: crud-backend-svc
   namespace: crud
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: crud-backend
   ports:
