@@ -21,6 +21,10 @@ func main() {
 	taskRepo := repositories.TaskRepository{DB: DB}
 	taskCtrl := controllers.TaskController{R: &taskRepo}
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("OK"))
+	})
+
 	http.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			taskCtrl.GetTasks(w)
