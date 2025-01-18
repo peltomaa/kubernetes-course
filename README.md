@@ -15,7 +15,7 @@
   - [Exercise 1.10](part1/exercise1.10.md)
   - [Exercise 1.11](part1/exercise1.11.md)
   - [Exercise 1.12](part1/exercise1.12.md)
-  - [Exercise 1.13](part1/exercise1.13.png)
+  - [Exercise 1.13 (Image 1)](part1/exercise1.13.png)
 - [Part 2](part2)
   - [Exercise 2.01](part2/exercise2.01.md)
   - [Exercise 2.02 (Image 1)](part2/exercise2.02_1.png)
