@@ -16,6 +16,10 @@ spec:
       containers:
         - name: pong-postgres
           image: "postgres:14"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           ports:
             - name: postgres
               containerPort: 5432

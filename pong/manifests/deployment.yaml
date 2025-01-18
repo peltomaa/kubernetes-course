@@ -20,6 +20,10 @@ spec:
       containers:
         - name: pong
           image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/pong:latest
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files

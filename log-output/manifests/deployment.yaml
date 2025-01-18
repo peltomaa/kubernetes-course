@@ -27,6 +27,10 @@ spec:
       containers:
         - name: log-output-worker
           image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/log-output-worker:latest
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files
@@ -36,6 +40,10 @@ spec:
 
         - name: log-output-web
           image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/log-output-web:latest
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files
