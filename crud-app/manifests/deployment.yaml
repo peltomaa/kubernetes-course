@@ -22,8 +22,8 @@ spec:
           image: crud/app
           resources:
             limits:
-              cpu: "250m"
-              memory: "128Mi"
+              cpu: "500m"
+              memory: "512Mi"
           volumeMounts:
             - name: crud-volume
               mountPath: /usr/src/app/files
