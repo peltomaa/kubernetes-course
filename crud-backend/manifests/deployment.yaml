@@ -16,7 +16,10 @@ spec:
       containers:
         - name: crud-backend
           image: crud/backend
-          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           env:
             - name: PG_HOST
               value: crud-postgres-svc
