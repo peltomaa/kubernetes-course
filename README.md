@@ -38,7 +38,7 @@
   - [Exercise 3.05](part3/exercise3.05.md)
   - [Exercise 3.08](part3/exercise3.08.md)
   - [Exercise 3.09](part3/exercise3.09.md)
-  - [Exercise 3.10 Image](part3/exercise3.10.png)
+  - [Exercise 3.10 (Image 1)](part3/exercise3.10.png)
 
 ## DBaaS vs DIY
 
