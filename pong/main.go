@@ -39,6 +39,10 @@ func main() {
 		}
 	})
 
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "OK")
+	})
+
 	http.Handle("/", mux)
 
 	port := os.Getenv("PORT")
