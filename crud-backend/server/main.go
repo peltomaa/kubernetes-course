@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -15,7 +16,7 @@ func main() {
 
 	DB, err := db.InitDb()
 	if err != nil {
-		fmt.Println("Failed init db:", err)
+		log.Fatalln("Failed init db:", err)
 	}
 	db.CreateTable(DB)
 	taskRepo := repositories.TaskRepository{DB: DB}
