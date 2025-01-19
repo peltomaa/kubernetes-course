@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: crud-rollback
+  namespace: crud
+spec:
+  metrics:
+    - name: cpu-usage
+      successCondition: result <= 0.02
+      failureLimit: 3
+      initialDelay: 2m
+      provider:
+        prometheus:
+          address: http://kube-prometheus-stack-1737-prometheus.prometheus.svc.cluster.local:9090
+          query: sum(rate(container_cpu_usage_seconds_total{namespace="crud"}[2m]))

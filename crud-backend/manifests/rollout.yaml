@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: crud-backend
+  namespace: crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crud-backend
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - analysis:
+            templates:
+              - templateName: cpu-usage
+  template:
+    metadata:
+      labels:
+        app: crud-backend
+    spec:
+      containers:
+        - name: crud-backend
+          image: crud/backend
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 1
+            failureThreshold: 10
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "512Mi"
+          env:
+            - name: PG_HOST
+              value: crud-postgres-svc
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_USER
+              value: postgres
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: crud-postgres-secrets
+                  key: POSTGRES_PASSWORD
