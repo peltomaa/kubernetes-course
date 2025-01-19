@@ -7,6 +7,6 @@ resources:
 
 images:
   - name: crud/backend
-    newname: toukop/crud-backend:latest
+    newname: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/crud-backend:latest
   - name: crud/backend-worker
-    newname: toukop/crud-backend-worker:latest
+    newname: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/crud-backend-worker:lastest
