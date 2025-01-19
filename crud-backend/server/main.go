@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
@@ -16,7 +15,7 @@ func main() {
 
 	DB, err := db.InitDb()
 	if err != nil {
-		log.Fatalln("Failed init db:", err)
+		fmt.Println("Failed init db:", err)
 	}
 	db.CreateTable(DB)
 	taskRepo := repositories.TaskRepository{DB: DB}
@@ -29,6 +28,12 @@ func main() {
 	})
 
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("ERROR"))
+			return
+		}
+
 		w.Write([]byte("OK"))
 	})
 
