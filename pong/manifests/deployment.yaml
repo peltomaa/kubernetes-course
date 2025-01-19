@@ -22,17 +22,21 @@ spec:
           image: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/pong:latest
           resources:
             limits:
-              cpu: "150m"
+              cpu: "250m"
               memory: "512Mi"
           volumeMounts:
             - name: log-pong-volume
               mountPath: /usr/src/app/files
           readinessProbe:
             httpGet:
+              scheme: HTTP
               path: /healthz
               port: 3000
-            failureThreshold: 1
+            initialDelaySeconds: 60
             periodSeconds: 60
+            timeoutSeconds: 1
+            failureThreshold: 10
+            successThreshold: 1
           env:
             - name: FILE_DIR
               value: /usr/src/app/files
