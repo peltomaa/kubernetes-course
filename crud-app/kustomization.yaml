@@ -7,4 +7,4 @@ resources:
 
 images:
   - name: crud/app
-    newName: toukop/crud-app:latest
+    newname: europe-north1-docker.pkg.dev/nomadic-charge-446815-j2/kubernetes-course/crud-app:latest

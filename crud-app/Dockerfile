@@ -1,11 +1,21 @@
-FROM golang:1.23
-
-ENV PORT 3000
+# Stage 1: Build stage
+FROM golang:1.23 AS build
 
 WORKDIR /app
 
 COPY . .
 
-EXPOSE 3000
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-CMD ["go", "run", "."]
+# Stage 2: Final stage
+FROM alpine:edge
+
+WORKDIR /app
+
+COPY --from=build /app/main .
+
+COPY index.html .
+
+CMD ["./main"]
+
+EXPOSE 3000
