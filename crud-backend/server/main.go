@@ -21,22 +21,25 @@ func main() {
 	taskRepo := repositories.TaskRepository{DB: DB}
 	taskCtrl := controllers.TaskController{R: &taskRepo}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("OK"))
 	})
 
-	http.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet {
-			taskCtrl.GetTasks(w)
-			return
-		}
-		if r.Method == http.MethodPost {
-			taskCtrl.PostTask(w, r)
-			return
-		}
-
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("OK"))
 	})
+
+	mux.HandleFunc("GET /todos", func(w http.ResponseWriter, r *http.Request) {
+		taskCtrl.PostTask(w, r)
+	})
+
+	mux.HandleFunc("POST /todos", func(w http.ResponseWriter, r *http.Request) {
+		taskCtrl.PostTask(w, r)
+	})
+
+	http.Handle("/", mux)
 
 	port := os.Getenv("PORT")
 	if port == "" {
