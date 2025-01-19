@@ -32,7 +32,7 @@ func main() {
 	})
 
 	mux.HandleFunc("GET /todos", func(w http.ResponseWriter, r *http.Request) {
-		taskCtrl.PostTask(w, r)
+		taskCtrl.GetTasks(w)
 	})
 
 	mux.HandleFunc("POST /todos", func(w http.ResponseWriter, r *http.Request) {
