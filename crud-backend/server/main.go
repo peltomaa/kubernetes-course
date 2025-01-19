@@ -45,6 +45,10 @@ func main() {
 		taskCtrl.PostTask(w, r)
 	})
 
+	mux.HandleFunc("PUT /todos/{id}", func(w http.ResponseWriter, r *http.Request) {
+		taskCtrl.PutTask(w, r)
+	})
+
 	http.Handle("/", mux)
 
 	port := os.Getenv("PORT")

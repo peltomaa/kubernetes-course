@@ -21,6 +21,17 @@ func (r *TaskRepository) Insert(task *models.Task) error {
 	return nil
 }
 
+func (r *TaskRepository) Update(id string, task *models.Task) error {
+	query := `UPDATE tasks SET task = $1 WHERE id = $2;`
+
+	_, err := r.DB.Exec(query, task.Task, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *TaskRepository) FetchAll() ([]models.Task, error) {
 	query := `SELECT id, task, created_at FROM tasks;`
 
