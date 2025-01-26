@@ -15,14 +15,16 @@
     <ul id="todos"></ul>
 
     <script>
+      const BASE_URL = "";
+
       const getTodos = async () => {
-        const res = await fetch("/todos");
+        const res = await fetch(`${BASE_URL}/todos`);
         const json = await res.json();
         return json;
       };
 
       const postTodo = async (todo) => {
-        const res = await fetch("/todos", {
+        const res = await fetch(`${BASE_URL}/todos`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -33,12 +35,41 @@
         return json;
       };
 
-      const injectTodos = async () => {
-        const todos = await getTodos();
+      const putTodo = async (todoId, todo) => {
+        const res = await fetch(`${BASE_URL}/todos/${todoId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(todo),
+        });
+        const json = await res.json();
+        return json;
+      };
+
+      const injectTodos = async (todos) => {
         const ul = document.getElementById("todos");
-        ul.innerHTML = "";
+        ul.innerHTML = null;
+
         todos.forEach((todo) => {
-          ul.innerHTML += `<li>${todo.task}</li>`;
+          const li = document.createElement("li");
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = todo.is_done;
+          checkbox.addEventListener("click", () => {
+            putTodo(todo.id, {
+              task: todo.task,
+              is_done: checkbox.checked,
+            });
+          });
+
+          const text = document.createTextNode(todo.task);
+
+          li.appendChild(checkbox);
+          li.appendChild(text);
+
+          ul.appendChild(li);
         });
       };
 
@@ -51,18 +82,17 @@
         });
         input.value = "";
 
-        const ul = document.getElementById("todos");
-        ul.innerHTML = "";
-        todos.forEach((todo) => {
-          ul.innerHTML += `<li>${todo.task}</li>`;
-        });
+        injectTodos(todos);
       };
 
       document
         .getElementById("todo-form")
         .addEventListener("submit", handleForm);
 
-      injectTodos();
+      (async () => {
+        const todos = await getTodos();
+        injectTodos(todos);
+      })();
     </script>
   </body>
 </html>
