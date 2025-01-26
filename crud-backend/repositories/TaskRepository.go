@@ -44,7 +44,7 @@ func (r *TaskRepository) FetchAll() ([]models.Task, error) {
 
 	for rows.Next() {
 		var task models.Task
-		err := rows.Scan(&task.ID, &task.Task, &task.CreatedAt)
+		err := rows.Scan(&task.ID, &task.Task, &task.IsDone, &task.CreatedAt, &task.UpdatedAt)
 		if err != nil {
 			return tasks, err
 		}
