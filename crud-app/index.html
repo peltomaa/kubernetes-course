@@ -45,7 +45,10 @@
       const handleForm = async (e) => {
         e.preventDefault();
         const input = document.getElementById("form-task");
-        const todos = await postTodo({ task: input.value.trim() });
+        const todos = await postTodo({
+          task: input.value.trim(),
+          is_done: false,
+        });
         input.value = "";
 
         const ul = document.getElementById("todos");
