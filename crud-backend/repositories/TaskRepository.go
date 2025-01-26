@@ -21,7 +21,7 @@ func (r *TaskRepository) Insert(task *models.Task) error {
 	return nil
 }
 
-func (r *TaskRepository) Update(id string, task *models.Task) error {
+func (r *TaskRepository) Update(id int, task *models.Task) error {
 	query := `UPDATE tasks SET task = $1, is_done = $2 WHERE id = $3;`
 
 	_, err := r.DB.Exec(query, task.Task, task.IsDone, id)

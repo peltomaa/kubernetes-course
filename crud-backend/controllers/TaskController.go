@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"crud-backend/models"
 	"crud-backend/repositories"
@@ -62,10 +63,17 @@ func (c *TaskController) PostTask(w http.ResponseWriter, r *http.Request) {
 func (c *TaskController) PutTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	taskId := r.PathValue("id")
+	pathTaskId := r.PathValue("id")
+
+	taskId, err := strconv.Atoi(pathTaskId)
+	if err != nil {
+		fmt.Println("Invalid ID format", err)
+		http.Error(w, "Invalid ID format", http.StatusInternalServerError)
+		return
+	}
 
 	var newTask models.Task
-	err := json.NewDecoder(r.Body).Decode(&newTask)
+	err = json.NewDecoder(r.Body).Decode(&newTask)
 	if err != nil {
 		fmt.Println("Failed to decode new task", err)
 		http.Error(w, "Failed to decode new task", http.StatusInternalServerError)
@@ -81,8 +89,8 @@ func (c *TaskController) PutTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Update new task id:", taskId, newTask.Task, "done:", newTask.IsDone)
 	err = c.R.Update(taskId, &newTask)
 	if err != nil {
-		fmt.Println("Failed to insert new task", err)
-		http.Error(w, "Failed to insert new task", http.StatusInternalServerError)
+		fmt.Println("Failed to update new task", err)
+		http.Error(w, "Failed to update new task", http.StatusInternalServerError)
 		return
 	}
 
