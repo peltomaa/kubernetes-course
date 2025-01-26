@@ -7,6 +7,7 @@ import (
 
 	"crud-backend/controllers"
 	"crud-backend/db"
+	"crud-backend/nats"
 	"crud-backend/repositories"
 )
 
@@ -38,8 +39,14 @@ func main() {
 		fmt.Println("Failed migrate db:", err)
 	}
 
+	nc, err := nats.InitNats()
+	if err != nil {
+		fmt.Println("Failed init nats:", err)
+	}
+
 	taskRepo := repositories.TaskRepository{DB: DB}
-	taskCtrl := controllers.TaskController{R: &taskRepo}
+	natsRepo := repositories.NatsRepository{Conn: nc}
+	taskCtrl := controllers.TaskController{R: &taskRepo, N: &natsRepo}
 
 	mux := http.NewServeMux()
 

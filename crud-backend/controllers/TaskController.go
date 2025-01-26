@@ -11,6 +11,7 @@ import (
 )
 
 type TaskController struct {
+	N *repositories.NatsRepository
 	R *repositories.TaskRepository
 }
 
@@ -55,6 +56,12 @@ func (c *TaskController) PostTask(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Failed to insert new task", err)
 		http.Error(w, "Failed to insert new task", http.StatusInternalServerError)
 		return
+	}
+
+	fmt.Println("Publish new task:", newTask.Task)
+	err = c.N.PublishTask(&newTask)
+	if err != nil {
+		fmt.Println("Failed to publish new task", err)
 	}
 
 	c.GetTasks(w)
