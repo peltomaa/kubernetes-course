@@ -7,6 +7,14 @@
 
 ## Application updates
 
+### Checkbox per todo!
+
 ![New checkbox input into page](/part4/exercise4.05_1.png)
+
+### Calling new endpoint!
+
 ![Calling new endpoint](/part4/exercise4.05_2.png)
+
+### Payload calling new endpoint!
+
 ![Payload calling new endpoint](/part4/exercise4.05_3.png)
