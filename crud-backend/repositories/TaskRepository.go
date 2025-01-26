@@ -33,7 +33,7 @@ func (r *TaskRepository) Update(id int, task *models.Task) error {
 }
 
 func (r *TaskRepository) FetchAll() ([]models.Task, error) {
-	query := `SELECT id, task, created_at FROM tasks;`
+	query := `SELECT id, task, is_done, created_at, updated_at FROM tasks;`
 
 	rows, err := r.DB.Query(query)
 	if err != nil {
