@@ -10,6 +10,12 @@ import (
 	"crud-backend/repositories"
 )
 
+func setupCORS(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func main() {
 	fmt.Println("Starting backend server")
 
@@ -29,10 +35,12 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w)
 		w.Write([]byte("OK"))
 	})
 
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("ERROR"))
@@ -43,14 +51,17 @@ func main() {
 	})
 
 	mux.HandleFunc("GET /todos", func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w)
 		taskCtrl.GetTasks(w)
 	})
 
 	mux.HandleFunc("POST /todos", func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w)
 		taskCtrl.PostTask(w, r)
 	})
 
 	mux.HandleFunc("PUT /todos/{id}", func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w)
 		taskCtrl.PutTask(w, r)
 	})
 
