@@ -78,7 +78,7 @@ func (c *TaskController) PutTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Update new task:", newTask.Task)
+	fmt.Println("Update new task id:", taskId, newTask.Task, "done:", newTask.IsDone)
 	err = c.R.Update(taskId, &newTask)
 	if err != nil {
 		fmt.Println("Failed to insert new task", err)
