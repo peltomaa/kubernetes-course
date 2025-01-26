@@ -3,13 +3,30 @@ package db
 import "database/sql"
 
 func CreateTable(db *sql.DB) error {
-	query := `CREATE TABLE IF NOT EXISTS tasks (
+	createTableQuery := `CREATE TABLE IF NOT EXISTS tasks (
     id SERIAL PRIMARY KEY,
     task TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
   );`
 
-	_, err := db.Exec(query)
+	if _, err := db.Exec(createTableQuery); err != nil {
+		return err
+	}
 
-	return err
+	addUpdatedAtColumnQuery := `
+    ALTER TABLE tasks ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NULL;
+	`
+	if _, err := db.Exec(addUpdatedAtColumnQuery); err != nil {
+		return err
+	}
+
+	addIsDoneColumnQuery := `
+    ALTER TABLE tasks ADD COLUMN IF NOT EXISTS is_done BOOLEAN DEFAULT FALSE;
+	`
+
+	if _, err := db.Exec(addIsDoneColumnQuery); err != nil {
+		return err
+	}
+
+	return nil
 }

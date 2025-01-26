@@ -15,9 +15,13 @@ func main() {
 	if err != nil {
 		fmt.Println("Failed init db:", err)
 	}
-	db.CreateTable(DB)
-	taskRepo := repositories.TaskRepository{DB: DB}
 
+	err = db.CreateTable(DB)
+	if err != nil {
+		fmt.Println("Failed migrate db:", err)
+	}
+
+	taskRepo := repositories.TaskRepository{DB: DB}
 	wikiRepo := repositories.WikipediaArticleRepository{}
 
 	article, err := wikiRepo.GetRandom()
