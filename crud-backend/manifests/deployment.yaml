@@ -10,27 +10,13 @@ spec:
       app: crud-backend
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: crud-backend
     spec:
       containers:
-        - name: crud-backend
-          image: crud/backend
-          readinessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /healthz
-              port: 3000
-            initialDelaySeconds: 60
-            periodSeconds: 60
-            timeoutSeconds: 1
-            failureThreshold: 10
-            successThreshold: 1
-          resources:
-            limits:
-              cpu: "150m"
-              memory: "512Mi"
-          env:
+        - env:
             - name: NATS_URL
               value: nats://crud-nats:4222
             - name: PG_HOST
@@ -42,5 +28,21 @@ spec:
             - name: PG_PASS
               valueFrom:
                 secretKeyRef:
-                  name: crud-postgres-secrets
                   key: POSTGRES_PASSWORD
+                  name: crud-postgres-secrets
+          image: crud/backend
+          name: crud-backend
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /healthz
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 512Mi

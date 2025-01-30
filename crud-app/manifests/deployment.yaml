@@ -10,33 +10,35 @@ spec:
       app: crud-app
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: crud-app
     spec:
+      containers:
+        - env:
+            - name: FILE_DIR
+              value: /usr/src/app/files
+          image: crud/app
+          name: crud-app
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /usr/src/app/files
+              name: crud-volume
       volumes:
         - name: crud-volume
           persistentVolumeClaim:
             claimName: crud-claim
-      containers:
-        - name: crud-app
-          image: crud/app
-          readinessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /
-              port: 3000
-            initialDelaySeconds: 60
-            periodSeconds: 60
-            timeoutSeconds: 1
-            failureThreshold: 10
-            successThreshold: 1
-          resources:
-            limits:
-              cpu: "150m"
-              memory: "512Mi"
-          volumeMounts:
-            - name: crud-volume
-              mountPath: /usr/src/app/files
-          env:
-            - name: FILE_DIR
-              value: /usr/src/app/files

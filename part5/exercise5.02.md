@@ -29,3 +29,11 @@ deployment "crud-backend" injected
 deployment.apps/crud-app configured
 deployment.apps/crud-backend configured
 ```
+
+## Update deployment.yaml for crud-app and crud-backend
+
+I updated the yaml using following command in `manifests/` folder of both projects
+
+```bash
+➜  manifests git:(main) ✗ cat deployment.yaml | linkerd inject - > deployment_new.yaml
+```
