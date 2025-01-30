@@ -1,0 +1,9 @@
+apiVersion: dummy-site.dummy-site/v1
+kind: DummySite
+metadata:
+  labels:
+    app.kubernetes.io/name: dummy-site-crd
+    app.kubernetes.io/managed-by: kustomize
+  name: dummysite-sample
+spec:
+  # TODO(user): Add fields here

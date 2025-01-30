@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- dummy-site_v1_dummysite.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
