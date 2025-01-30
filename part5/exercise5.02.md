@@ -37,3 +37,8 @@ I updated the yaml using following command in `manifests/` folder of both projec
 ```bash
 ➜  manifests git:(main) ✗ cat deployment.yaml | linkerd inject - > deployment_new.yaml
 ```
+
+Files:
+
+- crud-app: https://github.com/peltomaa/kubernetes-course/blob/5f7d7f51cabe177e4c8daf9f24a43d44b4e5a437/crud-app/manifests/deployment.yaml
+- crud-backend: https://github.com/peltomaa/kubernetes-course/blob/5f7d7f51cabe177e4c8daf9f24a43d44b4e5a437/crud-backend/manifests/deployment.yaml
