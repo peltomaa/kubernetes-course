@@ -40,11 +40,17 @@
   - [Exercise 3.09](part3/exercise3.09.md)
   - [Exercise 3.10 (Image 1)](part3/exercise3.10.png)
 - [Part 4](part4)
-  - [Exercise 4.01](part3/exercise3.01.md)
-  - [Exercise 4.02](part3/exercise3.02.md)
-  - [Exercise 4.03](part3/exercise3.03.md)
-  - [Exercise 4.04](part3/exercise3.04.md)
-  - [Exercise 4.05](part3/exercise3.05.md)
+  - [Exercise 4.01](part4/exercise4.01.md)
+  - [Exercise 4.02](part4/exercise4.02.md)
+  - [Exercise 4.03](part4/exercise4.03.md)
+  - [Exercise 4.04](part4/exercise4.04.md)
+  - [Exercise 4.05](part4/exercise4.05.md)
+- [Part 5](part5)
+  - [Exercise 5.02](part5/exercise5.02.md)
+  - [Exercise 5.03](part5/exercise5.03.md)
+  - [Exercise 5.04](part5/exercise5.04.md)
+  - [Exercise 5.05](part5/exercise5.05.md)
+  - [Exercise 5.08](part5/exercise5.08.md)
 
 ## DBaaS vs DIY
 
