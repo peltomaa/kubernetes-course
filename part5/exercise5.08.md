@@ -37,3 +37,7 @@
   - I'm not sure, but I would expect apps that I've been using using them.
 - Databases
   - Most likely I've used numerous databases during my time using the software. The software data needs to stored somewhere
+
+## Landscape image
+
+![CNCF Landscape](/part5/exercise5.08.png)
