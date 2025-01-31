@@ -13,3 +13,10 @@ service/wikipedia-app-service   LoadBalancer   34.118.234.171   35.228.124.218  
 <head>
 ...rest of HTML would be here...
 ```
+
+Used `curlimages/curl` for sidecar and init containers and then `nginx` for main container.
+
+Files:
+
+- Deployment: https://github.com/peltomaa/kubernetes-course/blob/main/wikipedia-app/manifests/deployment.yaml
+- Service: https://github.com/peltomaa/kubernetes-course/blob/main/wikipedia-app/manifests/service.yaml
